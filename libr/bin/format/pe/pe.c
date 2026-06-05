@@ -3791,12 +3791,14 @@ static void get_nb10(ut8 *dbg_data, int dbg_data_len, SCV_NB10_HEADER *res) {
 static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_dir_entry, ut8 *dbg_data, int dbg_data_len, SDebugInfo *res, char *filename) {
 #define SIZEOF_FILE_NAME 255
 	int i = 0;
-	const char *dbgname;
+	//const char *dbgname;
 	if (!dbg_data) {
 		return 0;
 	}
 	switch (dbg_dir_entry->Type) {
 	case IMAGE_DEBUG_TYPE_CODEVIEW:
+		return 0;
+		/*
 		if (!strncmp ((char *)dbg_data, "RSDS", 4)) {
 			SCV_RSDS_HEADER rsds_hdr;
 			init_rsdr_hdr (&rsds_hdr);
@@ -3842,65 +3844,66 @@ static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_
 			return 0;
 		}
 		break;
+	*/
 	case IMAGE_DEBUG_TYPE_COFF:
 		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_COFF: not supported type", filename);
-		return 0;
+		break;
 	case IMAGE_DEBUG_TYPE_FPO:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_FPO: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_FPO: not supported type", filename);
 		return 0;
 	case IMAGE_DEBUG_TYPE_MISC:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_MISC: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_MISC: not supported type", filename);
 		return 0;
 	case IMAGE_DEBUG_TYPE_EXCEPTION:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_EXCEPTION: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_EXCEPTION: not supported type", filename);
 		return 0;
 	case IMAGE_DEBUG_TYPE_FIXUP:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_FIXUP: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_FIXUP: not supported type", filename);
 		return 0;
 	case IMAGE_DEBUG_TYPE_OMAP_TO_SRC:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_OMAP_TO_SRC: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_OMAP_TO_SRC: not supported type", filename);
 		return 0;
 	case IMAGE_DEBUG_TYPE_OMAP_FROM_SRC:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_OMAP_FROM_SRC: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_OMAP_FROM_SRC: not supported type", filename);
 		return 0;
 	case 9:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_BORLAND: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_BORLAND: not supported type", filename);
 		return 0;
 	case 10:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_RESERVED10: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_RESERVED10: not supported type", filename);
 		return 0;
 	case 11:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_CLSID: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_CLSID: not supported type", filename);
 		return 0;
 	case 12:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_VC_FEATURE: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_VC_FEATURE: not supported type", filename);
 		return 0;
 	case 13:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_POGO: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_POGO: not supported type", filename);
 		return 0;
 	case 14:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_ILTCG: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_ILTCG: not supported type", filename);
 		return 0;
 	case 15:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_MPX: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_MPX: not supported type", filename);
 		return 0;
 	case 16:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_REPRO: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_REPRO: not supported type", filename);
 		return 0;
 	case 17:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_EMBEDDED_PORTABLE_PDB: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_EMBEDDED_PORTABLE_PDB: not supported type", filename);
 		return 0;
 	case 18:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_SPGO: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_SPGO: not supported type", filename);
 		return 0;
 	case 19:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_PDBCHECKSUM: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_PDBCHECKSUM: not supported type", filename);
 		return 0;
 	case 20:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_EX_DLLCHARACTERISTICS: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_EX_DLLCHARACTERISTICS: not supported type", filename);
 		return 0;
 	case 21:
-		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_PERFMAP: not supported type", filename);
+		//R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_PERFMAP: not supported type", filename);
 		return 0;
 	default:
 		R_LOG_WARN_BYPASS ("%s: %i: get_debug_info(): not supported type", dbg_dir_entry->Type, filename);
@@ -3963,10 +3966,10 @@ int PE_(r_bin_pe_get_debug_data)(RBinPEObj *pe, SDebugInfo *res, char *filename)
 			return false;
 		}
 		dbg_data_poff = R_MIN (img_dbg_dir_entry.PointerToRawData, r_buf_size (pe->b));
-		dbg_data_len = R_MIN (img_dbg_dir_entry.SizeOfData, r_buf_size (pe->b) - dbg_data_poff);
-		if (img_dbg_dir_entry.Type != IMAGE_DEBUG_TYPE_CODEVIEW) {
+		if (img_dbg_dir_entry.Type != IMAGE_DEBUG_TYPE_COFF) {
 			continue;
 		} else {
+			dbg_data_len = R_MIN (img_dbg_dir_entry.SizeOfData, r_buf_size (pe->b) - dbg_data_poff);
 			break;
 		}
 	}
