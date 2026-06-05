@@ -3903,7 +3903,7 @@ static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_
 		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_PERFMAP: not supported type", filename);
 		return 0;
 	default:
-		R_LOG_WARN_BYPASS ("get_debug_info(): not supported type");
+		R_LOG_WARN_BYPASS ("%s: %i: get_debug_info(): not supported type", dbg_dir_entry->Type, filename);
 		return 0;
 	}
 
