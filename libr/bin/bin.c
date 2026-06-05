@@ -589,7 +589,7 @@ R_API bool r_bin_plugin_remove(RBin *bin, RBinPlugin *plugin) {
 			return true;
 		}
 	}
-	R_LOG_WARN ("Plugin not found in this instance of RBin")
+	R_LOG_WARN ("Plugin not found in this instance of RBin");
 	return false;
 }
 
