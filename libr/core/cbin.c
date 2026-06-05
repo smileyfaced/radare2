@@ -949,6 +949,7 @@ static bool bin_info(RCore *core, PJ *pj, int mode, ut64 laddr) {
 		if (IS_MODE_JSON (mode)) {
 			pj_o (pj);
 		}
+		/*
 		pair_str (core, pj, "arch", info->arch);
 		if (R_STR_ISNOTEMPTY (info->cpu)) {
 			pair_str (core, pj, "cpu", info->cpu);
@@ -974,12 +975,24 @@ static bool bin_info(RCore *core, PJ *pj, int mode, ut64 laddr) {
 		if (info->has_retguard != -1) {
 			pair_bool (core, pj, "retguard", info->has_retguard);
 		}
-		pair_str (core, pj, "class", info->bclass);
+		*/
+		if (R_STR_ISNOTEMPTY (info->file)) {
+			if (R_STR_ISNOTEMPTY (info->debug_file_name)) {
+				pair_str (core, pj, "file", info->file);
+				pair_str (core, pj, "compiled", compiled);
+				pair_str (core, pj, "pdbpath", info->debug_file_name);
+				pair_str (core, pj, "guid", info->guid);
+				pair_int (core, pj, "bits", info->bits);
+			}
+		}
+		//pair_str (core, pj, "class", info->bclass);
+		/*
 		if (info->actual_checksum) {
-			/* computed checksum */
 			pair_str (core, pj, "cmp.csum", info->actual_checksum);
 		}
-		pair_str (core, pj, "compiled", compiled);
+		*/
+		//pair_str (core, pj, "compiled", compiled);
+		/*
 		pair_str (core, pj, "compiler", info->compiler);
 		if (R_STR_ISNOTEMPTY (info->flags)) {
 			pair_str (core, pj, "flags", info->flags);
@@ -988,8 +1001,10 @@ static bool bin_info(RCore *core, PJ *pj, int mode, ut64 laddr) {
 			pair_str (core, pj, "abi", info->abi);
 		}
 		pair_bool (core, pj, "crypto", info->has_crypto);
-		pair_str (core, pj, "dbg_file", info->debug_file_name);
-		pair_str (core, pj, "endian", info->big_endian? "big": "little");
+		*/
+		//pair_str (core, pj, "dbg_file", info->debug_file_name);
+		//pair_str (core, pj, "endian", info->big_endian? "big": "little");
+		/*
 		if (info->rclass && !strcmp (info->rclass, "mdmp")) {
 			tmp_buf = sdb_get (bf->sdb, "mdmp.flags", 0);
 			if (tmp_buf) {
@@ -1000,10 +1015,11 @@ static bool bin_info(RCore *core, PJ *pj, int mode, ut64 laddr) {
 		pair_bool (core, pj, "havecode", havecode);
 		if (havecode) {
 			if (info->claimed_checksum) {
-				/* checksum specified in header */
 				pair_str (core, pj, "hdr.csum", info->claimed_checksum);
 			}
-			pair_str (core, pj, "guid", info->guid);
+		*/
+			//pair_str (core, pj, "guid", info->guid);
+			/*
 			pair_str (core, pj, "intrp", info->intrp);
 			pair_ut64x (core, pj, "laddr", laddr);
 			if (info->lang && *info->lang != '?') {
@@ -1045,6 +1061,7 @@ static bool bin_info(RCore *core, PJ *pj, int mode, ut64 laddr) {
 			pair_bool (core, pj, "uncaps", R_BIN_DBG_UNCAPS & info->dbg_info);
 			pair_str (core, pj, "subsys", info->subsystem);
 			pair_bool (core, pj, "va", info->has_va);
+			*/
 		}
 		if (IS_MODE_JSON (mode)) {
 			pj_ko (pj, "checksums");

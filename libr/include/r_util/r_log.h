@@ -18,7 +18,7 @@ extern "C" {
 #endif
 
 #ifndef R_LOG_DISABLE
-#define R_LOG_DISABLE 0
+#define R_LOG_DISABLE 1
 #endif
 
 // unused, but could be a good replacement for eprintf when fully transitioned?
