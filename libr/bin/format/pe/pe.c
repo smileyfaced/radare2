@@ -3788,7 +3788,7 @@ static void get_nb10(ut8 *dbg_data, int dbg_data_len, SCV_NB10_HEADER *res) {
 	res->file_name = (ut8 *)strdup ((const char *)dbg_data + nb10sz);
 }
 
-static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_dir_entry, ut8 *dbg_data, int dbg_data_len, SDebugInfo *res) {
+static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_dir_entry, ut8 *dbg_data, int dbg_data_len, SDebugInfo *res, char *filename) {
 #define SIZEOF_FILE_NAME 255
 	int i = 0;
 	const char *dbgname;
@@ -3842,6 +3842,48 @@ static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_
 			return 0;
 		}
 		break;
+	case IMAGE_DEBUG_TYPE_COFF:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_COFF: not supported type", filename);
+		return 0;
+	case IMAGE_DEBUG_TYPE_FPO:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_FPO: not supported type", filename);
+		return 0;
+	case IMAGE_DEBUG_TYPE_MISC:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_MISC: not supported type", filename);
+		return 0;
+	case IMAGE_DEBUG_TYPE_EXCEPTION:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_EXCEPTION: not supported type", filename);
+		return 0;
+	case IMAGE_DEBUG_TYPE_FIXUP:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_FIXUP: not supported type", filename);
+		return 0;
+	case IMAGE_DEBUG_TYPE_OMAP_TO_SRC:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_OMAP_TO_SRC: not supported type", filename);
+		return 0;
+	case IMAGE_DEBUG_TYPE_OMAP_FROM_SRC:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_OMAP_FROM_SRC: not supported type", filename);
+		return 0;
+	case IMAGE_DEBUG_TYPE_BORLAND:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_BORLAND: not supported type", filename);
+		return 0;
+	case IMAGE_DEBUG_TYPE_RESERVED10:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_RESERVED10: not supported type", filename);
+		return 0;
+	case IMAGE_DEBUG_TYPE_CLSID:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_CLSID: not supported type", filename);
+		return 0;
+	case IMAGE_DEBUG_TYPE_REPRO:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_REPRO: not supported type", filename);
+		return 0;
+	case 17:
+		R_LOG_WARN_BYPASS ("%s: 17: not supported type", filename);
+		return 0;
+	case 19:
+		R_LOG_WARN_BYPASS ("%s: 19: not supported type", filename);
+		return 0;
+	case IMAGE_DEBUG_TYPE_EX_DLLCHARACTERISTICS:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_EX_DLLCHARACTERISTICS: not supported type", filename);
+		return 0;
 	default:
 		R_LOG_WARN_BYPASS ("get_debug_info(): not supported type");
 		return 0;
@@ -3874,7 +3916,7 @@ static int read_image_debug_directory_entry(RBuffer *b, ut64 addr, PE_(image_deb
 	return sizeof (PE_(image_debug_directory_entry));
 }
 
-int PE_(r_bin_pe_get_debug_data)(RBinPEObj *pe, SDebugInfo *res) {
+int PE_(r_bin_pe_get_debug_data)(RBinPEObj *pe, SDebugInfo *res, char *filename) {
 	PE_(image_debug_directory_entry)
 	img_dbg_dir_entry = { 0 };
 	PE_(image_data_directory) *dbg_dir = NULL;
@@ -3885,7 +3927,8 @@ int PE_(r_bin_pe_get_debug_data)(RBinPEObj *pe, SDebugInfo *res) {
 		return 0;
 	}
 	dbg_dir = &pe->nt_headers->optional_header.DataDirectory[6 /*IMAGE_DIRECTORY_ENTRY_DEBUG*/];
-	dbg_dir_offset = PE_(va2pa) (pe, (dbg_dir->VirtualAddress + dbg_dir->Size) - sizeof (PE_(image_debug_directory_entry)));
+	//dbg_dir_offset = PE_(va2pa) (pe, (dbg_dir->VirtualAddress + dbg_dir->Size) - sizeof (PE_(image_debug_directory_entry)));
+	dbg_dir_offset = PE_(va2pa) (pe, dbg_dir->VirtualAddress);
 	if ((int)dbg_dir_offset < 0 || dbg_dir_offset >= pe->size) {
 		return false;
 	}
@@ -3903,13 +3946,13 @@ int PE_(r_bin_pe_get_debug_data)(RBinPEObj *pe, SDebugInfo *res) {
 	}
 	/*
 	if (img_dbg_dir_entry.Type != IMAGE_DEBUG_TYPE_CODEVIEW) {
-		return PE_(r_bin_pe_get_debug_data)(pe, res);
+		return PE_(r_bin_pe_get_debug_data)(pe, res, filename);
 	}
 	*/
 	dbg_data = (ut8 *)calloc (1, dbg_data_len + 1);
 	if (dbg_data) {
 		r_buf_read_at (pe->b, dbg_data_poff, dbg_data, dbg_data_len);
-		result = get_debug_info (pe, &img_dbg_dir_entry, dbg_data, dbg_data_len, res);
+		result = get_debug_info (pe, &img_dbg_dir_entry, dbg_data, dbg_data_len, res, filename);
 		R_FREE (dbg_data);
 	}
 	return result;

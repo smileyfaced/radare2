@@ -937,7 +937,7 @@ static RBinInfo* info(RBinFile *bf) {
 	}
 
 	SDebugInfo di = {{0}};
-	if (PE_(r_bin_pe_get_debug_data)(pe, &di)) {
+	if (PE_(r_bin_pe_get_debug_data)(pe, &di, ret->file)) {
 		ret->guid = r_str_ndup (di.guidstr, GUIDSTR_LEN);
 		if (ret->guid) {
 			ret->debug_file_name = r_str_ndup (di.file_name, DBG_FILE_NAME_LEN);

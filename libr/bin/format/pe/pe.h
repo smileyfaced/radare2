@@ -183,7 +183,7 @@ R_API int PE_(r_bin_pe_is_stripped_debug)(RBinPEObj* bin);
 R_API void* PE_(r_bin_pe_free)(RBinPEObj* bin);
 R_API RBinPEObj* PE_(r_bin_pe_new)(const char* file, bool verbose);
 R_API RBinPEObj* PE_(r_bin_pe_new_buf)(RBuffer* buf, bool verbose);
-R_API int PE_(r_bin_pe_get_debug_data)(RBinPEObj* bin, struct SDebugInfo* res);
+R_API int PE_(r_bin_pe_get_debug_data)(RBinPEObj* bin, struct SDebugInfo* res, char *filename);
 R_API int PE_(bin_pe_get_claimed_checksum)(RBinPEObj* bin);
 R_API int PE_(bin_pe_get_actual_checksum)(RBinPEObj* bin);
 R_API const char* PE_(bin_pe_compute_authentihash)(RBinPEObj* bin);
