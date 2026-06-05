@@ -3782,6 +3782,7 @@ static bool get_rsds(ut8 *dbg_data, int dbg_data_len, SCV_RSDS_HEADER *res) {
 static void get_nb10(ut8 *dbg_data, int dbg_data_len, SCV_NB10_HEADER *res) {
 	const int nb10sz = 16;
 	if (dbg_data_len < nb10sz) {
+		R_LOG_WARN ("nb10sz > dbg_data_len!");
 		return;
 	}
 	memcpy (res, dbg_data, nb10sz);
@@ -3793,6 +3794,7 @@ static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_
 	int i = 0;
 	const char *dbgname;
 	if (!dbg_data) {
+		R_LOG_WARN ("dbg_data not found!");
 		return 0;
 	}
 	switch (dbg_dir_entry->Type) {
@@ -3834,6 +3836,8 @@ static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_
 			res->file_name[0] = 0;
 			if (nb10_hdr.file_name) {
 				strncpy (res->file_name, (const char *)nb10_hdr.file_name, sizeof (res->file_name) - 1);
+			} else {
+				R_LOG_WARN ("nb10_hdr.filename not found!");
 			}
 			res->file_name[sizeof (res->file_name) - 1] = 0;
 			nb10_hdr.free ((struct SCV_NB10_HEADER *)&nb10_hdr);
@@ -3843,7 +3847,7 @@ static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_
 		}
 		break;
 	default:
-		// R_LOG_WARN ("get_debug_info(): not supported type");
+		R_LOG_WARN ("get_debug_info(): not supported type");
 		return 0;
 	}
 
