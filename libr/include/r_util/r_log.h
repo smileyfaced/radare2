@@ -93,6 +93,13 @@ R_API void r_log_del_callback(RLogCallback cb);
 #endif
 #endif
 
+#define R_LOG_BYPASS(f,...) if (r_log_match (R_LOG_LEVEL_INFO, R_LOG_ORIGIN)) {r_log_message (R_LOG_LEVEL_INFO, R_LOG_ORIGIN, __FILE__, __LINE__, f, ##__VA_ARGS__);}
+#define R_LOG_FATAL_BYPASS(f,...) if (r_log_match (R_LOG_LEVEL_FATAL, R_LOG_ORIGIN)) {r_log_message (R_LOG_LEVEL_FATAL, R_LOG_ORIGIN, __FILE__, __LINE__, f, ##__VA_ARGS__);}
+#define R_LOG_ERROR_BYPASS(f,...) if (r_log_match (R_LOG_LEVEL_ERROR, R_LOG_ORIGIN)) {r_log_message (R_LOG_LEVEL_ERROR, R_LOG_ORIGIN, __FILE__, __LINE__, f, ##__VA_ARGS__);}
+#define R_LOG_INFO_BYPASS(f,...) if (r_log_match (R_LOG_LEVEL_INFO, R_LOG_ORIGIN)) {r_log_message (R_LOG_LEVEL_INFO, R_LOG_ORIGIN, __FILE__, __LINE__, f, ##__VA_ARGS__);}
+#define R_LOG_TODO_BYPASS(f,...) if (r_log_match (R_LOG_LEVEL_TODO, R_LOG_ORIGIN)) {r_log_message(R_LOG_LEVEL_TODO, R_LOG_ORIGIN, __FILE__, __LINE__, f, ##__VA_ARGS__);}
+#define R_LOG_WARN_BYPASS(f,...) if (r_log_match (R_LOG_LEVEL_WARN, R_LOG_ORIGIN)) {r_log_message (R_LOG_LEVEL_WARN, R_LOG_ORIGIN, __FILE__, __LINE__, f, ##__VA_ARGS__);}
+
 R_API void r_log_set_file(const char *expr);
 R_API void r_log_set_filter(const char *expr);
 R_API void r_log_set_colors(bool show_colors);
