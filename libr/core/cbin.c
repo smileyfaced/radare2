@@ -949,14 +949,14 @@ static bool bin_info(RCore *core, PJ *pj, int mode, ut64 laddr) {
 		if (IS_MODE_JSON (mode)) {
 			pj_o (pj);
 		}
-		if (R_STR_ISNOTEMPTY (info->file)) {
-			if (R_STR_ISNOTEMPTY (info->debug_file_name)) {
-				pair_str (core, pj, "file", info->file);
-				pair_str (core, pj, "compiled", compiled);
-				pair_str (core, pj, "pdbpath", info->debug_file_name);
-				pair_str (core, pj, "guid", info->guid);
-				pair_int (core, pj, "bits", info->bits);
-			}
+		if (R_STR_ISNOTEMPTY (info->debug_file_name)) {
+			//if (R_STR_ISNOTEMPTY (info->file)) {
+			//pair_str (core, pj, "file", info->file);
+			//pair_str (core, pj, "compiled", compiled);
+			pair_str (core, pj, "pdbpath", info->debug_file_name);
+			//pair_str (core, pj, "guid", info->guid);
+			//pair_int (core, pj, "bits", info->bits);
+			//}
 		}
 		if (IS_MODE_JSON (mode)) {
 			pj_ko (pj, "checksums");
