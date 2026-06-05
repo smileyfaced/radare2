@@ -3824,6 +3824,7 @@ static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_
 			dbgname = (char *)rsds_hdr.file_name;
 			r_str_ncpy (res->file_name, (const char *)dbgname, sizeof (res->file_name));
 			rsds_hdr.free ((struct SCV_RSDS_HEADER *)&rsds_hdr);
+			R_LOG_INFO ("IMAGE_DEBUG_TYPE_CODEVIEW found!");
 		} else if (strncmp ((const char *)dbg_data, "NB10", 4) == 0) {
 			if (dbg_data_len < 20) {
 				R_LOG_WARN ("Truncated NB10 entry, not enough data to parse");
@@ -3842,6 +3843,7 @@ static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_
 			}
 			res->file_name[sizeof (res->file_name) - 1] = 0;
 			nb10_hdr.free ((struct SCV_NB10_HEADER *)&nb10_hdr);
+			R_LOG_INFO ("IMAGE_DEBUG_TYPE_CODEVIEW found!");
 		} else {
 			R_LOG_INFO ("CodeView section not NB10 or RSDS");
 			return 0;
