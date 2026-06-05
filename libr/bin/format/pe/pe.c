@@ -3772,6 +3772,7 @@ static void init_cv_nb10_header(SCV_NB10_HEADER *cv_nb10_header) {
 static bool get_rsds(ut8 *dbg_data, int dbg_data_len, SCV_RSDS_HEADER *res) {
 	const int rsds_sz = 4 + sizeof (SGUID) + 4;
 	if (dbg_data_len < rsds_sz) {
+		R_LOG_WARN ("rsds_sz > dbg_data_len!");
 		return false;
 	}
 	memcpy (res, dbg_data, rsds_sz);
