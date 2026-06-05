@@ -3798,6 +3798,7 @@ static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_
 		R_LOG_WARN ("dbg_data not found!");
 		return 0;
 	}
+	R_LOG_INFO ("dbg_dir_entry->Type is %d", dbg_dir_entry->Type);
 	switch (dbg_dir_entry->Type) {
 	case IMAGE_DEBUG_TYPE_CODEVIEW:
 		if (!strncmp ((char *)dbg_data, "RSDS", 4)) {
