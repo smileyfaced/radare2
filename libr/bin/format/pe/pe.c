@@ -3940,33 +3940,41 @@ int PE_(r_bin_pe_get_debug_data)(RBinPEObj *pe, SDebugInfo *res, char *filename)
 	PE_(image_data_directory) *dbg_dir = NULL;
 	PE_DWord dbg_dir_offset;
 	ut8 *dbg_data = 0;
+	ut32 dbg_data_poff = 0;
+	int dbg_data_len = 0;
 	int result = 0;
+	int n;
 	if (!pe) {
 		return 0;
 	}
 	dbg_dir = &pe->nt_headers->optional_header.DataDirectory[6 /*IMAGE_DIRECTORY_ENTRY_DEBUG*/];
-	dbg_dir_offset = PE_(va2pa) (pe, (dbg_dir->VirtualAddress + dbg_dir->Size) - sizeof (PE_(image_debug_directory_entry)));
-	//dbg_dir_offset = PE_(va2pa) (pe, dbg_dir->VirtualAddress);
-	if ((int)dbg_dir_offset < 0 || dbg_dir_offset >= pe->size) {
-		return false;
+	for (n = 0; n < dbg_dir->Size / (sizeof (PE_(image_debug_directory_entry)); n++)
+	{
+		img_dbg_dir_entry = { 0 };
+		
+		//dbg_dir_offset = PE_(va2pa) (pe, (dbg_dir->VirtualAddress + dbg_dir->Size) - sizeof (PE_(image_debug_directory_entry)));
+		dbg_dir_offset = PE_(va2pa) (pe, dbg_dir->VirtualAddress + (sizeof (PE_(image_debug_directory_entry)) * n));
+		if ((int)dbg_dir_offset < 0 || dbg_dir_offset >= pe->size) {
+			return false;
+		}
+		if (dbg_dir_offset >= r_buf_size (pe->b)) {
+			return false;
+		}
+		read_image_debug_directory_entry (pe->b, dbg_dir_offset, &img_dbg_dir_entry);
+		if ((r_buf_size (pe->b) - dbg_dir_offset) < sizeof (PE_(image_debug_directory_entry))) {
+			return false;
+		}
+		dbg_data_poff = R_MIN (img_dbg_dir_entry.PointerToRawData, r_buf_size (pe->b));
+		dbg_data_len = R_MIN (img_dbg_dir_entry.SizeOfData, r_buf_size (pe->b) - dbg_data_poff);
+		if (img_dbg_dir_entry.Type != IMAGE_DEBUG_TYPE_CODEVIEW) {
+			continue;
+		} else {
+			break;
+		}
 	}
-	if (dbg_dir_offset >= r_buf_size (pe->b)) {
-		return false;
-	}
-	read_image_debug_directory_entry (pe->b, dbg_dir_offset, &img_dbg_dir_entry);
-	if ((r_buf_size (pe->b) - dbg_dir_offset) < sizeof (PE_(image_debug_directory_entry))) {
-		return false;
-	}
-	ut32 dbg_data_poff = R_MIN (img_dbg_dir_entry.PointerToRawData, r_buf_size (pe->b));
-	int dbg_data_len = R_MIN (img_dbg_dir_entry.SizeOfData, r_buf_size (pe->b) - dbg_data_poff);
 	if (dbg_data_len < 1) {
 		return false;
 	}
-	/*
-	if (img_dbg_dir_entry.Type != IMAGE_DEBUG_TYPE_CODEVIEW) {
-		return PE_(r_bin_pe_get_debug_data)(pe, res, filename);
-	}
-	*/
 	dbg_data = (ut8 *)calloc (1, dbg_data_len + 1);
 	if (dbg_data) {
 		r_buf_read_at (pe->b, dbg_data_poff, dbg_data, dbg_data_len);
