@@ -3948,10 +3948,8 @@ int PE_(r_bin_pe_get_debug_data)(RBinPEObj *pe, SDebugInfo *res, char *filename)
 		return 0;
 	}
 	dbg_dir = &pe->nt_headers->optional_header.DataDirectory[6 /*IMAGE_DIRECTORY_ENTRY_DEBUG*/];
-	for (n = 0; n < dbg_dir->Size / sizeof (PE_(image_debug_directory_entry)); n++)
+	for (n = 0; n < (dbg_dir->Size / sizeof (PE_(image_debug_directory_entry))); n++)
 	{
-		img_dbg_dir_entry = { 0 };
-		
 		//dbg_dir_offset = PE_(va2pa) (pe, (dbg_dir->VirtualAddress + dbg_dir->Size) - sizeof (PE_(image_debug_directory_entry)));
 		dbg_dir_offset = PE_(va2pa) (pe, dbg_dir->VirtualAddress + (sizeof (PE_(image_debug_directory_entry)) * n));
 		if ((int)dbg_dir_offset < 0 || dbg_dir_offset >= pe->size) {
