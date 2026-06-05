@@ -949,33 +949,6 @@ static bool bin_info(RCore *core, PJ *pj, int mode, ut64 laddr) {
 		if (IS_MODE_JSON (mode)) {
 			pj_o (pj);
 		}
-		/*
-		pair_str (core, pj, "arch", info->arch);
-		if (R_STR_ISNOTEMPTY (info->cpu)) {
-			pair_str (core, pj, "cpu", info->cpu);
-		}
-		ut64 baddr = r_bin_get_baddr (core->bin);
-		if (baddr != UT64_MAX) {
-			pair_ut64x (core, pj, "baddr", baddr);
-		}
-		pair_ut64 (core, pj, "binsz", r_bin_get_size (core->bin));
-		pair_str (core, pj, "bintype", info->rclass);
-		if (R_STR_ISNOTEMPTY (info->charset)) {
-			pair_str (core, pj, "charset", info->charset);
-		}
-		pair_int (core, pj, "bits", info->bits);
-		pair_bool (core, pj, "canary", info->has_canary);
-		if (info->has_nobtcfi) {
-			pair_bool (core, pj, "nobtcfi", info->has_nobtcfi);
-		}
-		if (info->dbglink) {
-			pair_str (core, pj, "dbglink", info->dbglink);
-		}
-		pair_bool (core, pj, "injprot", info->has_libinjprot);
-		if (info->has_retguard != -1) {
-			pair_bool (core, pj, "retguard", info->has_retguard);
-		}
-		*/
 		if (R_STR_ISNOTEMPTY (info->file)) {
 			if (R_STR_ISNOTEMPTY (info->debug_file_name)) {
 				pair_str (core, pj, "file", info->file);
@@ -984,84 +957,6 @@ static bool bin_info(RCore *core, PJ *pj, int mode, ut64 laddr) {
 				pair_str (core, pj, "guid", info->guid);
 				pair_int (core, pj, "bits", info->bits);
 			}
-		}
-		//pair_str (core, pj, "class", info->bclass);
-		/*
-		if (info->actual_checksum) {
-			pair_str (core, pj, "cmp.csum", info->actual_checksum);
-		}
-		*/
-		//pair_str (core, pj, "compiled", compiled);
-		/*
-		pair_str (core, pj, "compiler", info->compiler);
-		if (R_STR_ISNOTEMPTY (info->flags)) {
-			pair_str (core, pj, "flags", info->flags);
-		}
-		if (R_STR_ISNOTEMPTY (info->abi)) {
-			pair_str (core, pj, "abi", info->abi);
-		}
-		pair_bool (core, pj, "crypto", info->has_crypto);
-		*/
-		//pair_str (core, pj, "dbg_file", info->debug_file_name);
-		//pair_str (core, pj, "endian", info->big_endian? "big": "little");
-		/*
-		if (info->rclass && !strcmp (info->rclass, "mdmp")) {
-			tmp_buf = sdb_get (bf->sdb, "mdmp.flags", 0);
-			if (tmp_buf) {
-				pair_str (core, pj, "flags", tmp_buf);
-				free (tmp_buf);
-			}
-		}
-		pair_bool (core, pj, "havecode", havecode);
-		if (havecode) {
-			if (info->claimed_checksum) {
-				pair_str (core, pj, "hdr.csum", info->claimed_checksum);
-			}
-		*/
-			//pair_str (core, pj, "guid", info->guid);
-			/*
-			pair_str (core, pj, "intrp", info->intrp);
-			pair_ut64x (core, pj, "laddr", laddr);
-			if (info->lang && *info->lang != '?') {
-				pair_str (core, pj, "lang", info->lang);
-			}
-			pair_bool (core, pj, "linenum", R_BIN_DBG_LINENUMS & info->dbg_info);
-			pair_bool (core, pj, "lsyms", R_BIN_DBG_SYMS & info->dbg_info);
-			pair_str (core, pj, "machine", info->machine);
-			pair_bool (core, pj, "nx", info->has_nx);
-			pair_str (core, pj, "os", info->os);
-			if (info->rclass && !strcmp (info->rclass, "pe")) {
-				pair_bool (core, pj, "overlay", info->pe_overlay);
-			}
-			pair_str (core, pj, "cc", info->default_cc);
-			pair_bool (core, pj, "pic", info->has_pi);
-			pair_bool (core, pj, "relocs", R_BIN_DBG_RELOCS & info->dbg_info);
-			Sdb *sdb_info = sdb_ns (obj->kv, "info", false);
-			if (sdb_info) {
-				tmp_buf = sdb_get (sdb_info, "elf.relro", 0);
-				if (R_STR_ISNOTEMPTY (tmp_buf)) {
-					pair_str (core, pj, "relro", tmp_buf);
-				}
-				free (tmp_buf);
-			}
-			pair_str (core, pj, "rpath", info->rpath);
-			if (info->rclass && !strcmp (info->rclass, "pe")) {
-				// this should be moved if added to mach0 (or others)
-				pair_bool (core, pj, "signed", info->signature);
-			}
-			pair_bool (core, pj, "sanitize", info->has_sanitizers);
-			pair_bool (core, pj, "static", r_bin_is_static (core->bin));
-			if (info->rclass && !strcmp (info->rclass, "mdmp")) {
-				v = sdb_num_get (bf->sdb, "mdmp.streams", 0);
-				if (v != -1) {
-					pair_int (core, pj, "streams", v);
-				}
-			}
-			pair_bool (core, pj, "stripped", R_BIN_DBG_STRIPPED & info->dbg_info);
-			pair_bool (core, pj, "uncaps", R_BIN_DBG_UNCAPS & info->dbg_info);
-			pair_str (core, pj, "subsys", info->subsystem);
-			pair_bool (core, pj, "va", info->has_va);
-			*/
 		}
 		if (IS_MODE_JSON (mode)) {
 			pj_ko (pj, "checksums");
