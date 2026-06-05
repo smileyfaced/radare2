@@ -3863,26 +3863,44 @@ static int get_debug_info(RBinPEObj *pe, PE_(image_debug_directory_entry) * dbg_
 	case IMAGE_DEBUG_TYPE_OMAP_FROM_SRC:
 		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_OMAP_FROM_SRC: not supported type", filename);
 		return 0;
-	case IMAGE_DEBUG_TYPE_BORLAND:
+	case 9:
 		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_BORLAND: not supported type", filename);
 		return 0;
-	case IMAGE_DEBUG_TYPE_RESERVED10:
+	case 10:
 		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_RESERVED10: not supported type", filename);
 		return 0;
-	case IMAGE_DEBUG_TYPE_CLSID:
+	case 11:
 		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_CLSID: not supported type", filename);
 		return 0;
-	case IMAGE_DEBUG_TYPE_REPRO:
+	case 12:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_VC_FEATURE: not supported type", filename);
+		return 0;
+	case 13:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_POGO: not supported type", filename);
+		return 0;
+	case 14:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_ILTCG: not supported type", filename);
+		return 0;
+	case 15:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_MPX: not supported type", filename);
+		return 0;
+	case 16:
 		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_REPRO: not supported type", filename);
 		return 0;
 	case 17:
-		R_LOG_WARN_BYPASS ("%s: 17: not supported type", filename);
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_EMBEDDED_PORTABLE_PDB: not supported type", filename);
+		return 0;
+	case 18:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_SPGO: not supported type", filename);
 		return 0;
 	case 19:
-		R_LOG_WARN_BYPASS ("%s: 19: not supported type", filename);
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_PDBCHECKSUM: not supported type", filename);
 		return 0;
-	case IMAGE_DEBUG_TYPE_EX_DLLCHARACTERISTICS:
+	case 20:
 		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_EX_DLLCHARACTERISTICS: not supported type", filename);
+		return 0;
+	case 21:
+		R_LOG_WARN_BYPASS ("%s: IMAGE_DEBUG_TYPE_PERFMAP: not supported type", filename);
 		return 0;
 	default:
 		R_LOG_WARN_BYPASS ("get_debug_info(): not supported type");
@@ -3927,8 +3945,8 @@ int PE_(r_bin_pe_get_debug_data)(RBinPEObj *pe, SDebugInfo *res, char *filename)
 		return 0;
 	}
 	dbg_dir = &pe->nt_headers->optional_header.DataDirectory[6 /*IMAGE_DIRECTORY_ENTRY_DEBUG*/];
-	//dbg_dir_offset = PE_(va2pa) (pe, (dbg_dir->VirtualAddress + dbg_dir->Size) - sizeof (PE_(image_debug_directory_entry)));
-	dbg_dir_offset = PE_(va2pa) (pe, dbg_dir->VirtualAddress);
+	dbg_dir_offset = PE_(va2pa) (pe, (dbg_dir->VirtualAddress + dbg_dir->Size) - sizeof (PE_(image_debug_directory_entry)));
+	//dbg_dir_offset = PE_(va2pa) (pe, dbg_dir->VirtualAddress);
 	if ((int)dbg_dir_offset < 0 || dbg_dir_offset >= pe->size) {
 		return false;
 	}
