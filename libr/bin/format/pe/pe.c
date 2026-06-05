@@ -3948,7 +3948,7 @@ int PE_(r_bin_pe_get_debug_data)(RBinPEObj *pe, SDebugInfo *res, char *filename)
 		return 0;
 	}
 	dbg_dir = &pe->nt_headers->optional_header.DataDirectory[6 /*IMAGE_DIRECTORY_ENTRY_DEBUG*/];
-	for (n = 0; n < dbg_dir->Size / (sizeof (PE_(image_debug_directory_entry)); n++)
+	for (n = 0; n < dbg_dir->Size / sizeof (PE_(image_debug_directory_entry)); n++)
 	{
 		img_dbg_dir_entry = { 0 };
 		
