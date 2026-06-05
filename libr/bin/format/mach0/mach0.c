@@ -897,7 +897,7 @@ static void parseCodeDirectory(RMutaBind *mb, RBuffer *b, int offset, ut32 datas
 	/* At the moment the code in parse_signature guarantees that datasize > hashSize. Leaving this as a safeguard
 	   against future refactorings */
 	if (datasize < hashSize) {
-		R_LOG_WARN ("Code directory size is smaller than hashSize")
+		R_LOG_WARN ("Code directory size is smaller than hashSize");
 	}
 	// show and check the rest of hashes
 	ut8 *hash = p + cscd.hashOffset;
