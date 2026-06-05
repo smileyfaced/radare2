@@ -78,7 +78,7 @@ static void do_hash_seed(RahashOptions *ro, const char *seed) {
 		if (ro->s.len < 1) {
 			strcpy ((char *)ro->s.buf, sptr);
 			ro->s.len = strlen (sptr);
-			R_LOG_WARN ("Expected seed/key in hexpair format, use 0x or s: prefix instead")
+			R_LOG_WARN ("Expected seed/key in hexpair format, use 0x or s: prefix instead");
 			// assuming a string, prefix it with 's:' to skip this message");
 		}
 	}
