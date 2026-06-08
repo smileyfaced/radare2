@@ -1097,6 +1097,18 @@ out_error:
 	return false;
 }
 
+char *PE_(bin_pe_get_compiler)(RBinPEObj *bin) {
+	if (!bin || !bin->nt_headers) {
+		return NULL;
+	}
+	int major = (int)bin->nt_headers->optional_header.MajorLinkerVersion;
+	int minor = (int)bin->nt_headers->optional_header.MinorLinkerVersion;
+	if (major || minor) {
+		return r_str_newf("Linker %02d.%02d", major, minor);
+	}
+	return NULL;
+}
+
 int PE_(bin_pe_get_claimed_checksum)(RBinPEObj *pe) {
 	if (!pe || !pe->optional_header) {
 		return 0;
