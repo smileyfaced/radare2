@@ -900,6 +900,7 @@ static RBinInfo* info(RBinFile *bf) {
 	ret->pe_overlay = pe_overlay > 0;
 	ret->signature = pe? pe->is_signed: false;
 	ret->file_hashes = r_list_newf ((RListFree)r_bin_file_hash_free);
+	ret->compiler = PE_(bin_pe_get_compiler)(bf->bo->bin_obj);
 	Sdb *db = sdb_ns (bf->sdb, "pe", true);
 	sdb_bool_set (db, "canary", has_canary (bf), 0);
 	sdb_bool_set (db, "highva", haschr (bf, IMAGE_DLL_CHARACTERISTICS_HIGH_ENTROPY_VA), 0);
