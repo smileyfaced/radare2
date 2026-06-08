@@ -952,7 +952,6 @@ static bool bin_info(RCore *core, PJ *pj, int mode, ut64 laddr) {
 		if (R_STR_ISNOTEMPTY (info->compiler)) {
 			if (strncmp ("6.", info->compiler, 2) && strncmp ("14.2", info->compiler, 4) && strncmp ("14.3", info->compiler, 4)) {
 				pair_str (core, pj, "file", info->file);
-				pair_str (core, pj, "pdbpath", info->debug_file_name);
 				pair_str (core, pj, "linker", info->compiler);
 			}
 		}
