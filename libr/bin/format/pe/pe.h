@@ -156,7 +156,7 @@ struct PE_(r_bin_pe_obj_t) {
 #define RBinPEObj struct PE_(r_bin_pe_obj_t)
 
 // #define RBinPEObj struct PE_(r_bin_pe_obj_t)
-R_API char *PE_(rz_bin_pe_get_compiler)(RzBinPEObj *bin);
+R_API char *PE_(bin_pe_get_compiler)(RBinPEObj *bin);
 R_API PE_DWord PE_(va2pa)(RBinPEObj* bin, PE_DWord rva);
 R_API void PE_(r_bin_store_all_resource_version_info)(RBinPEObj* bin);
 R_API const char* PE_(r_bin_pe_get_arch)(RBinPEObj* bin);
