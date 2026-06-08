@@ -1104,7 +1104,7 @@ char *PE_(bin_pe_get_compiler)(RBinPEObj *bin) {
 	int major = (int)bin->nt_headers->optional_header.MajorLinkerVersion;
 	int minor = (int)bin->nt_headers->optional_header.MinorLinkerVersion;
 	if (major || minor) {
-		return r_str_newf("Linker %02d.%02d", major, minor);
+		return r_str_newf("%02d.%02d", major, minor);
 	}
 	return NULL;
 }
